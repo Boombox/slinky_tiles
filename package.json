@@ -1,6 +1,6 @@
 {
   "name": "slinky_tiles",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Slinky Responsive CSS Framework: Tiles Library, advanced css grids including flexbox, hexagon and isometric",
   "main": "slinky_tiles.scss",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sphism/slinky_tiles.git"
+    "url": "git+https://github.com/Boombox/slinky_tiles.git"
   },
   "author": "Matt Terry",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "framework"
   ],
   "bugs": {
-    "url": "https://github.com/sphism/slinky_tiles/issues"
+    "url": "https://github.com/Boombox/slinky_tiles/issues"
   },
-  "homepage": "https://github.com/sphism/slinky_tiles#readme"
+  "homepage": "https://github.com/Boombox/slinky_tiles#readme"
 }
