@@ -15,22 +15,25 @@
   }
 }
 
-.container,
-%container {
+@mixin grid-container {
+  width: 100%;
   max-width: $grid-max-width;
   margin: auto;
 }
 
-.grid-wrapper {
-  width: 100%;
-}
-
-.grid,
-%grid {
+@mixin slinky-grid {
   @include ie9-flex-table;
+
+  // padding gutters
+  &,
+  * {
+    box-sizing: border-box;
+  }
+
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  flex-basis: 100%;
 
   margin: auto;
   max-width: $grid-max-width;
@@ -38,139 +41,105 @@
   width: 100%;
 }
 
-.tile,
-%tile,
-[class*='tile-'] {
+@mixin slinky-tile-flex {
   @include ie9-flex-table-cell;
   // Flex child.
   justify-content: flex-start;
   align-items: stretch;
-  width: 100%;
+  // This stops the tile content stretching the tile.
+  flex-basis: 0;
+  //width: 100%;
 
   // Flex parent.
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 
-  padding: 0;
-  margin: 0;
+  //padding: 0;
+  //margin: 0;
 
+  flex-grow: 1;
+  width: auto;
+
+  // todo: should this be all block elements?
   div {
     max-width: 100%;
   }
 }
 
-.tile-auto {
-  flex-grow: 1;
-  width: auto;
-}
 
-.grid__col,
-[class*='grid__col'] {
-  @include ie9-flex-table-cell;
-  // Flex child.
-  //flex-grow: 1; // allow grid to fill empty space
+// todo i want tile to auto fill instead of tile-auto.
+//.tile-auto {
+//  flex-grow: 1;
+//  width: auto;
+//}
+
+@mixin slinky-tile-fixed($spanColumns, $totalColumns) {
+
   flex-grow: 0;
   flex-shrink: 0;
-  flex-basis: 0%;
-  align-items: center;
-  justify-content: center;
-  //min-width: percentage(1/$grid-columns);
+  overflow: hidden;
 
-  // Flex parent.
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+  $percentageWidth: percentage($spanColumns / $totalColumns);
 
-  padding: 0;
-  margin: 0;
+  @include slinky-tile-fixed-width($percentageWidth);
+
 }
 
-.grid__row,
-[class*='grid__row'] {
-  @include ie9-flex-table-cell;
-  // Flex child.
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-
-  // Flex parent.
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-
-  padding: 0;
-  margin: 0;
-}
-
-@for $i from 1 through $grid-columns {
-  .tile-#{$i},
-  %tile-#{$i},
-  .grid__col-#{$i} {
-    @if ($i > 1) {
-      flex-basis: 100%;
-      //flex-basis: 100vw;
-      //max-width: 100vw;
-    }
-    @else {
-      // 2 cols on mobile.
-      flex-basis: 100% * $i / 2;
-      width: 100% * $i / 2;
-      //flex-basis: 100vw * $i / 2;
-      //max-width:  100vw * $i / 2;
-      justify-content: center;
-    }
-
-    //flex-grow: 1; // allow grid to fill empty space
-    flex-grow: 0;
-    flex-shrink: 0;
-
-    //@include respond-to('tablet') {
-      .ie9 & {
-         width: 100% * $i / $grid-columns;
-      }
-
-      min-width: 100% * $i / $grid-columns;
-      flex-basis: 100% * $i / $grid-columns;
-      overflow: hidden;
-
-      //flex-basis: 100vw * $i / $grid-columns;
-      //max-width:  $grid-max-width / $i;
-    //}
-
-    //@include respond-to($grid-max-width) {
-    //  flex-basis: $grid-max-width * $i / $grid-columns;
-    //}
+@mixin slinky-tile-fixed-width($width) {
+  .ie9 & {
+    width: $width;
   }
+  min-width: $width;
+  flex-basis: $width;
 }
 
-// Psy page content is on a 3 col grid now.
-.tile-one-third {
-  flex-basis: 100%;
+//@mixin slinky-tile-fixed-with-margin($spanColumns, $totalColumns) {
+//  @include slinky-tile-fixed($spanColumns, $totalColumns);
+//
+//  //$percentageWidth: percentage($spanColumns / $totalColumns);
+//  //$calcWidth: calc(#{$percentageWidth} - #{2 * $margin-x});
+//
+//  //@include slinky-tile-fixed-width($calcWidth);
+//}
 
-  //@include respond-to('desktop') {
-    .ie9 & {
-      width: percentage(1/3);
-    }
 
-    flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: percentage(1/3);
-    min-width: percentage(1/3);
-  //}
-}
+// Removing these:
 
-.tile-two-thirds {
-  flex-basis: 100%;
+//.grid__col,
+//[class*='grid__col'] {
+//  @include ie9-flex-table-cell;
+//  // Flex child.
+//  //flex-grow: 1; // allow grid to fill empty space
+//  flex-grow: 0;
+//  flex-shrink: 0;
+//  flex-basis: 0%;
+//  align-items: center;
+//  justify-content: center;
+//  //min-width: percentage(1/$grid-columns);
+//
+//  // Flex parent.
+//  display: flex;
+//  flex-direction: column;
+//  flex-wrap: nowrap;
+//
+//  padding: 0;
+//  margin: 0;
+//}
 
-  //@include respond-to('desktop') {
-    .ie9 & {
-       width: percentage(2/3);
-    }
-
-    flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: percentage(2/3);
-    min-width: percentage(2/3);
-  //}
-}
+//.grid__row,
+//[class*='grid__row'] {
+//  @include ie9-flex-table-cell;
+//  // Flex child.
+//  justify-content: center;
+//  align-items: center;
+//  width: 100%;
+//
+//  // Flex parent.
+//  display: flex;
+//  flex-direction: row;
+//  flex-wrap: nowrap;
+//
+//  padding: 0;
+//  margin: 0;
+//}

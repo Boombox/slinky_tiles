@@ -1,0 +1,148 @@
+
+.container,
+%container {
+  @include grid-container;
+}
+
+.grid-wrapper {
+  width: 100%;
+}
+
+.grid,
+%grid {
+  @include slinky-grid;
+}
+
+.tile,
+%tile,
+[class*='tile-'],
+.tile-auto {
+  @include slinky-tile-flex;
+}
+
+// To make life easier you can use ul.grid then each li will default to the
+// styling of li.tile
+ul.grid,
+ul[class*='grid-'] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include slinky-grid;
+
+  & > li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @include slinky-tile-flex;
+  }
+}
+
+// Generate the fixed tile classes
+@for $totalColumns from 1 through 6 {
+
+  .grid-#{$totalColumns} {
+    @extend %grid;
+  }
+
+  @for $spanColumns from 1 through $totalColumns {
+    .grid-#{$totalColumns} {
+      // eg grid-4.tiles-have-margin tile-1
+      //&.tiles-have-margin > .tile-#{$spanColumns} {
+      //  @include slinky-tile-fixed-with-margin($spanColumns, $totalColumns);
+      //}
+      // eg grid-4 tile-1
+      & > .tile-#{$spanColumns} {
+        @include slinky-tile-fixed($spanColumns, $totalColumns);
+      }
+    }
+
+    // eg tile-1of4
+    .tile-#{$spanColumns}of#{$totalColumns},
+    %tile-#{$spanColumns}of#{$totalColumns} {
+      @include slinky-tile-fixed($spanColumns, $totalColumns);
+    }
+
+    //.tiles-have-margin > .tile-#{$spanColumns}of#{$totalColumns} {
+    //  @include slinky-tile-fixed-with-margin($spanColumns, $totalColumns);
+    //}
+
+  }
+}
+
+.test-is-column {
+  flex-direction: column;
+  height: 100%;
+}
+
+// Instead of grid > tile.has-margin repetition you can use
+// grid.tiles-have-margin > tile or just ul.grid.tiles-have-margin > li
+@if mixin-exists(has-margin) {
+  .tiles-have-margin {
+    & > .tile,
+    & > %tile,
+    & > [class*='tile-'],
+    & > .tile-auto {
+      @include has-margin;
+    }
+  }
+
+  ul.tiles-have-margin {
+    & > li {
+      @include has-margin;
+    }
+  }
+}
+
+// testing an idea
+@if mixin-exists(has-padding) {
+  .padded-grid {
+    & > .tile,
+    & > %tile,
+    & > [class*='tile-'],
+    & > .tile-auto {
+      @include has-padding;
+      background-clip: content-box;
+    }
+  }
+
+  [class*='tile-'].padded-grid {
+    padding: 0;
+  }
+
+  ul.padded-grid {
+    & > li {
+      @include has-padding;
+      background-clip: content-box;
+    }
+  }
+}
+
+// testing an idea
+@if mixin-exists(has-padding) {
+  .cards-have-padding {
+    & > .tile,
+    & > %tile,
+    & > [class*='tile-'],
+    & > .tile-auto {
+      & > .card {
+        @include has-padding;
+        background-clip: content-box;
+      }
+    }
+  }
+
+  [class*='tile-'].cards-have-padding {
+    padding: 0;
+  }
+
+  ul.cards-have-padding {
+    & > li {
+      & > .card {
+        @include has-padding;
+        background-clip: content-box;
+      }
+    }
+  }
+}
