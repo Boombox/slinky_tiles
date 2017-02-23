@@ -52,10 +52,25 @@ ul[class*='grid-'] {
       //&.tiles-have-margin > .tile-#{$spanColumns} {
       //  @include slinky-tile-fixed-with-margin($spanColumns, $totalColumns);
       //}
+
       // eg grid-4 tile-1
       & > .tile-#{$spanColumns} {
         @include slinky-tile-fixed($spanColumns, $totalColumns);
       }
+
+      @if mixin-exists(respond-to) {
+        // Foce single column on mobile.
+        &.is-responsive > .tile-#{$spanColumns} {
+          @include slinky-tile-fixed(1, 1);
+        }
+
+        @include respond-to('tablet') {
+          &.is-responsive > .tile-#{$spanColumns} {
+            @include slinky-tile-fixed($spanColumns, $totalColumns);
+          }
+        }
+      }
+
     }
 
     // eg tile-1of4
