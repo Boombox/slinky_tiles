@@ -1,4 +1,4 @@
 
-$grid-columns: 4;
-$grid-max-width: 1800px;
-$breakpoint-mobile: 600px;
+$grid-columns: 4 !default;
+$grid-max-width: 1800px !default;
+$breakpoint-mobile: 600px !default;
