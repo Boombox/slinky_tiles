@@ -62,7 +62,7 @@
   width: auto;
 
   // todo: should this be all block elements?
-  div {
+  & > div {
     max-width: 100%;
   }
 }
