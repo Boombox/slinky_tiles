@@ -1,6 +1,6 @@
 {
   "name": "slinky_tiles",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Slinky Responsive CSS Framework: Tiles Library, advanced css grids including flexbox, hexagon and isometric",
   "main": "slinky_tiles.scss",
   "scripts": {
