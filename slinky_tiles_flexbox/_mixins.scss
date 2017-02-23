@@ -11,6 +11,8 @@
 @mixin ie9-flex-table-cell {
   .ie9 & {
     display: table-cell;
+    // @todo: for an auto width tile we need to remove float left so it works
+    // like a td in ie9.
     float: left;
   }
 }
